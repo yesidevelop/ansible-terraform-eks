@@ -3,7 +3,7 @@
   connection: local
   become: yes
   vars:
-    terraform_version: 0.15
+    terraform_version: 0.15.0
   tasks:
   - name: Updating packages
     shell: yum update
