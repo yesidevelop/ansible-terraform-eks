@@ -4,7 +4,9 @@
   become: yes
   tasks:
   - name: Deleting k8s APP
-    shell: kubectl delete -k ./ || true
+    shell: |
+      kubectl delete -k ./ || true
+      kubectl delete -k flask-vue-kubernetes/kubernetes || true
   - name: Deleting Terraform Infra
     community.general.terraform:
       project_path: 'terraform-provision-eks-cluster/'
