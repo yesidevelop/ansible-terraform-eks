@@ -6,7 +6,8 @@
   - name: Deleting k8s APP
     shell: |
       kubectl delete -k ./ || true
-      kubectl delete -k flask-vue-kubernetes/kubernetes || true
+      kubectl delete -f flask-vue-kubernetes/kubernetes/ingress-rules || true
+      kubectl delete -f flask-vue-kubernetes/kubernetes/app-structure || true
   - name: Deleting Terraform Infra
     community.general.terraform:
       project_path: 'terraform-provision-eks-cluster/'
