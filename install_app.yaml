@@ -13,6 +13,7 @@
     shell: |
       curl -sLO https://k8s.io/examples/application/wordpress/mysql-deployment.yaml
       curl -sLO https://k8s.io/examples/application/wordpress/wordpress-deployment.yaml
+      git clone https://github.com/yesidevelop/flask-vue-kubernetes.git
       cat <<EOF >./kustomization.yaml
       secretGenerator:
       - name: mysql-pass
@@ -25,6 +26,7 @@
         - wordpress-deployment.yaml
       EOF
       kubectl --kubeconfig /root/.kube/config apply -k ./
+      kubectl --kubeconfig /root/.kube/config apply -f flask-vue-kubernetes/kubernetes
   - name: Getting LoadBalancer name
     shell: kubectl --kubeconfig /root/.kube/config get svc -o jsonpath='{.items[?(@.metadata.name=="wordpress")].status.loadBalancer.ingress[0].hostname}'
     register: awselb
