@@ -9,7 +9,6 @@ yum update
 yum install git -y
 amazon-linux-extras install ansible2 -y
 ansible-galaxy collection install community.general
-git clone https://github.com/ashutoshvct/aws-eks-terraform-ansible.git
-sleep 10s
+git clone https://github.com/yesidevelop/ansible-terraform-eks.git
 cd aws-eks-terraform-ansible && nohup ansible-playbook install_eks.yaml -vv &
 ```
