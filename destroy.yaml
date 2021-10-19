@@ -8,6 +8,7 @@
       kubectl delete -k ./ || true
       kubectl delete -f flask-vue-kubernetes/kubernetes/ingress-rules || true
       kubectl delete -f flask-vue-kubernetes/kubernetes/app-structure || true
+      rm -rf /bin/kubectl
   - name: Deleting Terraform Infra
     community.general.terraform:
       project_path: 'terraform-provision-eks-cluster/'
