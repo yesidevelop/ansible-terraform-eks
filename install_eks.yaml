@@ -58,4 +58,4 @@
   - name: Kubeconfig Setup
     shell: |
       cd terraform-provision-eks-cluster
-      aws eks --region $(terraform output -raw region) update-kubeconfig --name $(terraform output -raw cluster_name)
+      aws eks --region us-east-1 update-kubeconfig --name eks1
