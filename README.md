@@ -16,6 +16,7 @@ cd ansible-terraform-eks && nohup ansible-playbook install_eks.yaml -vv &
 Courtesy:
 1. https://github.com/opszero/kubespot
 2. https://github.com/ashutoshvct/aws-eks-terraform-ansible
+3. https://github.com/testdrivenio/flask-vue-kubernetes
 
 
 For adding new user to cluster:
