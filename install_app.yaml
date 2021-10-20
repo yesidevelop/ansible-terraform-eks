@@ -9,7 +9,7 @@
     delay: 30
     register: result
     until: result.rc == 0
-  - name: Setting up app
+  - name: Setting up wordpress app
     shell: |
       curl -sLO https://k8s.io/examples/application/wordpress/mysql-deployment.yaml
       curl -sLO https://k8s.io/examples/application/wordpress/wordpress-deployment.yaml
@@ -26,7 +26,10 @@
         - wordpress-deployment.yaml
       EOF
       kubectl --kubeconfig /root/.kube/config apply -k ./
+  - name: Setting up flask app
+    shell: |
       kubectl --kubeconfig /root/.kube/config apply -f flask-vue-kubernetes/kubernetes/app-structure
+      sleep 60
       kubectl --kubeconfig /root/.kube/config apply -f flask-vue-kubernetes/kubernetes/ingress-rules
   - name: Getting LoadBalancer name
     shell: kubectl --kubeconfig /root/.kube/config get svc -o jsonpath='{.items[?(@.metadata.name=="wordpress")].status.loadBalancer.ingress[0].hostname}'
