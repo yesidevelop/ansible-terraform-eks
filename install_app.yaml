@@ -31,13 +31,15 @@
       kubectl --kubeconfig /root/.kube/config apply -f flask-vue-kubernetes/kubernetes/app-structure
       sleep 60
       kubectl --kubeconfig /root/.kube/config apply -f flask-vue-kubernetes/kubernetes/ingress-rules
-  - name: Setting up flask app
+  - name: Setting up migrations
     shell: |
       while [ "$(kubectl get pods -l=app='flask' -o jsonpath='{.items[*].status.containerStatuses[0].ready}')" != "true" ]; do
         sleep 5
         echo "Waiting Flask to be ready."
       done
       pod_name=$(kubectl get pods | grep flask | awk '{print $1}')
+      postgres_pod_name=$(kubectl get pods | grep postgres | awk '{print $1}')
+      kubectl exec ${postgres_pod_name} --stdin --tty -- psql -U sample -c "CREATE DATABASE books;"
       kubectl exec ${pod_name} --stdin --tty -- python manage.py recreate_db
       kubectl exec ${pod_name} --stdin --tty -- python manage.py seed_db
       
