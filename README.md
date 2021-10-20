@@ -12,3 +12,7 @@ ansible-galaxy collection install community.general
 git clone https://github.com/yesidevelop/ansible-terraform-eks.git
 cd ansible-terraform-eks && nohup ansible-playbook install_eks.yaml -vv &
 ```
+
+Courtesy:
+1. https://github.com/opszero/kubespot
+2. https://github.com/ashutoshvct/aws-eks-terraform-ansible
