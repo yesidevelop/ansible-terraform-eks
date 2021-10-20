@@ -13,7 +13,6 @@
     shell: |
       curl -sLO https://k8s.io/examples/application/wordpress/mysql-deployment.yaml
       curl -sLO https://k8s.io/examples/application/wordpress/wordpress-deployment.yaml
-      git clone https://github.com/yesidevelop/flask-vue-kubernetes.git
       cat <<EOF >./kustomization.yaml
       secretGenerator:
       - name: mysql-pass
@@ -28,9 +27,20 @@
       kubectl --kubeconfig /root/.kube/config apply -k ./
   - name: Setting up flask app
     shell: |
+      git clone https://github.com/yesidevelop/flask-vue-kubernetes.git
       kubectl --kubeconfig /root/.kube/config apply -f flask-vue-kubernetes/kubernetes/app-structure
       sleep 60
       kubectl --kubeconfig /root/.kube/config apply -f flask-vue-kubernetes/kubernetes/ingress-rules
+  - name: Setting up flask app
+    shell: |
+      while [ "$(kubectl get pods -l=app='flask' -o jsonpath='{.items[*].status.containerStatuses[0].ready}')" != "true" ]; do
+        sleep 5
+        echo "Waiting Flask to be ready."
+      done
+      pod_name=$(kubectl get pods | grep flask | awk '{print $1}')
+      kubectl exec ${pod_name} --stdin --tty -- python manage.py recreate_db
+      kubectl exec ${pod_name} --stdin --tty -- python manage.py seed_db
+      
   - name: Getting LoadBalancer name
     shell: kubectl --kubeconfig /root/.kube/config get svc -o jsonpath='{.items[?(@.metadata.name=="wordpress")].status.loadBalancer.ingress[0].hostname}'
     register: awselb
