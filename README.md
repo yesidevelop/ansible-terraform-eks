@@ -1,5 +1,6 @@
 # aws-eks-terraform-ansible
 Create AWS EKS cluster using terraform and ansible. And Deploy an App.
+Install two applications. wordpress and Flask on EKS
 
 #### Launch Amazon linux 2 and add this part in user-data:
 
